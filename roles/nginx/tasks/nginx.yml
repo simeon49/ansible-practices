@@ -1,0 +1,22 @@
+---
+- name: install nginx
+  # https://docs.ansible.com/ansible/latest/modules/yum_module.html
+  yum: name=nginx state=present
+
+- name: copy config
+  # https://docs.ansible.com/ansible/latest/modules/template_module.html
+  template: src=nginx.conf.j2 dest={{nginx_config_dir}}/nginx.conf
+
+- name: copy conf.d/*
+  template: src='conf.d/{{ item.src }}' dest='{{ nginx_config_dir }}/conf.d/{{ item.dest }}'
+  with_items:
+    - { src: 'server_80.conf.j2', dest: 'server_80.conf' }
+    - { src: 'server_443.conf.j2', dest: 'server_443.conf' }
+  notify: restart nginx
+
+- name: create site directory
+  # https://docs.ansible.com/ansible/latest/modules/file_module.html
+  file: path={{nginx_root}} state=directory
+
+- name: copy index.html
+  template: src=index.html.j2 dest={{nginx_root}}/index.html

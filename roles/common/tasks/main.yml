@@ -1,0 +1,24 @@
+---
+- name: 安装 gcc
+  yum: name=gcc state=present
+
+- name: 安装 python-devel
+  yum: name=python-devel state=present
+
+- name: 安装 git
+  yum: name=git state=present
+
+- name: 安装 pip
+  yum: name=python-pip state=present
+
+- name: 更新 pip
+  pip:
+    name: pip
+    state: latest
+    extra_args: -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com
+
+- name: 安装 python虚拟环境工具
+  pip:
+    name: virtualenv
+    state: latest
+    extra_args: -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com

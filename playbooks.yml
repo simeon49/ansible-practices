@@ -1,0 +1,35 @@
+---
+# - name: install nginx to test servers
+#   hosts: test-servers     #执行tasks的主机，all表示所有
+#   remote_user: root       #the user log into machine.
+#   become: yes
+#   roles:
+#     - nginx
+
+
+- name: common
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+  tags:
+    - common
+
+
+- name: ping ad servers
+  hosts: adservers
+  remote_user: root
+  tasks:
+    - name: ping
+      ping:
+  tags:
+    - ping
+  
+
+- name: install bt client to ad servers
+  hosts: adservers
+  remote_user: root
+  roles:
+    - bt_client
+  tags:
+    - run_bt_client

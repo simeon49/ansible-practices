@@ -1,0 +1,10 @@
+---
+
+nginx_config_dir: /etc/nginx
+nginx_error_log: /var/log/nginx/error.log
+nginx_access_log: /var/log/nginx/access.log
+nginx_root: /usr/share/nginx/html
+
+
+title: A test 
+hosts: '{{ ansible_all_ipv4_addresses }}'

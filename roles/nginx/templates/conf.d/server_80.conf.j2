@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    # server_name www.test.com;
+    location / {
+        root {{ nginx_root }};
+        autoindex on;
+    }
+    # location ~* \.(torrent)$ {
+    #     root /data/torrent-files;
+    #     autoindex on;
+    # }
+}

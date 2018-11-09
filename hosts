@@ -1,0 +1,46 @@
+[ywkd-servers]
+dev_server       ansible_ssh_user=root ansible_ssh_host=47.96.136.58
+test_server      ansible_ssh_user=root ansible_ssh_host=116.62.201.28
+pre_server       ansible_ssh_user=root ansible_ssh_host=47.97.184.56
+
+[test-servers]
+a_server         ansible_ssh_user=root ansible_ssh_host=47.93.31.219
+b_server         ansible_ssh_user=root ansible_ssh_host=47.104.201.221
+
+[adservers-group01]
+ad_server_86    ansible_ssh_user=root ansible_ssh_host=172.20.0.86
+ad_server_118    ansible_ssh_user=root ansible_ssh_host=172.20.0.118
+ad_server_146   ansible_ssh_user=root ansible_ssh_host=172.20.0.146
+ad_server_162   ansible_ssh_user=root ansible_ssh_host=172.20.0.162
+ad_server_142    ansible_ssh_user=root ansible_ssh_host=172.20.0.142
+ad_server_158   ansible_ssh_user=root ansible_ssh_host=172.20.0.158
+ad_server_126   ansible_ssh_user=root ansible_ssh_host=172.20.0.126
+ad_server_150   ansible_ssh_user=root ansible_ssh_host=172.20.0.150
+ad_server_166   ansible_ssh_user=root ansible_ssh_host=172.20.0.166
+ad_server_106   ansible_ssh_user=root ansible_ssh_host=172.20.0.106
+
+[adservers-group02]
+# ad_server_130   ansible_ssh_user=root ansible_ssh_host=172.20.0.130
+ad_server_182   ansible_ssh_user=root ansible_ssh_host=172.20.0.182
+ad_server_178   ansible_ssh_user=root ansible_ssh_host=172.20.0.178
+ad_server_194   ansible_ssh_user=root ansible_ssh_host=172.20.0.194
+ad_server_206   ansible_ssh_user=root ansible_ssh_host=172.20.0.206
+# ad_server_186    ansible_ssh_user=root ansible_ssh_host=172.20.0.186
+ad_server_218   ansible_ssh_user=root ansible_ssh_host=172.20.0.218
+ad_server_210    ansible_ssh_user=root ansible_ssh_host=172.20.0.210
+ad_server_170   ansible_ssh_user=root ansible_ssh_host=172.20.0.170
+ad_server_202   ansible_ssh_user=root ansible_ssh_host=172.20.0.202
+ad_server_198   ansible_ssh_user=root ansible_ssh_host=172.20.0.198
+ad_server_234   ansible_ssh_user=root ansible_ssh_host=172.20.0.234
+
+[adservers:children]
+adservers-group01
+adservers-group02
+
+[lan-servers]
+ad_server_70    ansible_ssh_user=root ansible_ssh_host=172.20.0.70
+ad_server_58    ansible_ssh_user=root ansible_ssh_host=172.20.0.58
+ad_server_74    ansible_ssh_user=root ansible_ssh_host=172.20.0.74
+ad_server_98    ansible_ssh_user=root ansible_ssh_host=172.20.0.98
+ad_server_154   ansible_ssh_user=root ansible_ssh_host=172.20.0.154
+ad_server_102   ansible_ssh_user=root ansible_ssh_host=172.20.0.102

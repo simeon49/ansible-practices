@@ -1,0 +1,33 @@
+---
+- name: 下载/更新依赖库(libtorrent-1.1.8)
+  git: 
+    repo: https://gitee.com/Simeon49/libtorrent-rasterbar-1.1.8-with-build-for-centos7.git
+    dest: ~/libtorrent-rasterbar-1.1.8-with-build-for-centos7 
+    update: yes
+
+- name: 安装依赖库(libtorrent-1.1.8)
+  command: ./install_libtorrent_python_use_builds_on_centos7.sh
+  args:
+    chdir: ~/libtorrent-rasterbar-1.1.8-with-build-for-centos7
+
+- name: 下载/更新bt客户端
+  git:
+    repo: https://gitee.com/Simeon49/bit_torrent.git
+    dest: ~/bit_torrent
+    update: yes
+
+- name: 安装nat检测工具 pystun
+  pip:
+    name: pystun
+
+- name: 检测nat类型
+  shell: pystun
+  register: nat_check_result
+
+- name: 显示nat检测结果
+  debug: var=nat_check_result.stdout
+
+- name: 执行下载任务
+  shell: stdbuf -oL ./bt_client.py ./mac-file.mp4.torrent -s ../> temp.log
+  args:
+    chdir: ~/bit_torrent

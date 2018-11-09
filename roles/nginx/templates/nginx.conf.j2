@@ -1,0 +1,49 @@
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user nginx;
+worker_processes auto;
+error_log {{ nginx_error_log }};
+pid /var/run/nginx.pid;
+# Load dynamic modules. See /usr/share/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+worker_rlimit_nofile 65535;
+events {
+    use epoll;
+    worker_connections 65535;
+}
+
+
+http {
+    log_format main '"$remote_addr" - "$remote_user"  "[$time_local]" "$request" "$request_body" "$status"'
+                        '"$body_bytes_sent" "$http_referer" "$http_user_agent" "$http_x_forwarded_for"'
+                        '"$upstream_addr" "$upstream_response_time" "$upstream_status" "$request_time"';
+    client_header_buffer_size 32k;
+    large_client_header_buffers 4 32k;
+    gzip on;
+    gzip_min_length 1k;
+    gzip_buffers 4 16k;
+    gzip_http_version 1.1;
+    gzip_types  text/plain application/x-javascript text/css application/xml;
+    gzip_vary on;
+
+    access_log  {{ nginx_access_log }}  main;
+    uwsgi_ignore_client_abort on;
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    client_max_body_size 100M;
+    client_body_buffer_size 128k;
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+
+
+    include /etc/nginx/conf.d/*.conf;
+}

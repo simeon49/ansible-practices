@@ -1,0 +1,47 @@
+---
+# - name: 创建虚拟环境 env-bt
+#   command: virtualenv --no-site-packages env-bt
+#   args:
+#     chdir: ~/bt_client
+
+- name: 安装python 依赖包
+  pip:
+    requirements: ~/bt_client/requirement.txt
+    extra_args: -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com
+    virtualenv: ~/bt_client/env-bt
+
+- name: 下载/更新依赖库(libtorrent-1.1.8)
+  git: 
+    repo: https://gitee.com/Simeon49/libtorrent-rasterbar-1.1.8-with-build-for-centos7.git
+    dest: ~/libtorrent-rasterbar-1.1.8-with-build-for-centos7 
+    update: yes
+
+- name: 安装依赖库(libtorrent-1.1.8)
+  shell: source  ~/bt_client/env-bt/bin/activate; ./install_libtorrent_python_use_builds_on_centos7.sh
+  args:
+    chdir: ~/libtorrent-rasterbar-1.1.8-with-build-for-centos7
+
+- name: 下载/更新bt客户端
+  git:
+    repo: http://172.20.0.154/qixiyi/bt_client.git
+    dest: ~/bt_client
+    update: yes
+
+- name: 创建log目录
+  file:
+    path: ~/bt_client/log
+    state: directory
+    mode: 0755
+
+# - name: 检测nat类型
+#   shell: pystun
+#   register: nat_check_result
+
+# - name: 显示nat检测结果
+#   debug: var=nat_check_result.stdout
+
+- name: 启动客户端
+  shell: source ./env-bt/bin/activate; stdbuf -oL ./run_bit_torrent.py ../> temp.log
+  args:
+    chdir: ~/bt_client
+    
